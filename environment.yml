@@ -20,5 +20,5 @@ dependencies:
   - pip
   - pip:
     - gpflow ==2.1
-    - scipy ==1.5
+    - scipy
     - git+https://github.com/slaclab/PyEmittance.git
