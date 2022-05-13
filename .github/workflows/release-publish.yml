@@ -1,16 +1,25 @@
-name: Create conda environment with docker lcls-inj-tuning-rhel7
+name: Publish release
 
-on:
+on:  
   push:
-    branches:
-      - main
-
+    tags:
+      - '*'
+      
 jobs:
   build:
     env:
       ENVIRONMENT_NAME: lcls-inj-tuning-rhel7
+      TEST_FILE: test.sh
     runs-on: ubuntu-latest
     name: Build environment
     steps:
       - name: Build environment
         uses: slaclab/lcls-rhel7-conda-pack@v0.0
+      - name: Upload artifact to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.ENVIRONMENT_NAME }}.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
